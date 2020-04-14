@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Covid19 Impact Estimator Designed by Francis Ogbonna">
+    <title>Covid19 Estimator</title>
+    <style>
+        body{
+            background-color:rgba(63, 27, 104, 0.979);
+        }
+        .container{
+            width:60% ;
+            background:rgba(156, 109, 209, 0.979);
+            margin: 0px auto;
+            padding:25px;
+            font-size: 1.2em;
+        }
+        header{
+            height: 120;
+            background: rgba(187, 153, 231, 0.979);
+            padding: 5px;
+            color: #fff;
+        }
+        @media screen and (device-width: 360px) 
+            and (device-height: 640px){
+                header {
+                height: 200px;
+            }
+            .container{
+                width:80%;
+            }
+            .data-item{
+            width: 100px;
+            }
+            li{
+                margin:3px;
+            }
+            .slider{
+                max-height: 250px;
+            }
+        }
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            display: inline-block;
+            margin: 10px;
+        }
+        .brand{
+            border-radius: 100px;
+            height: 80px;
+            width: 80px;
+        }
+        .slider{
+            width: 100%;
+            max-height: 600px;
+        }
+        .slide-img{
+            width: 100%;
+            height: max-content;
+        }
+        .info{
+          font-weight: normal;
+          font-size: 1.5em;
+          text-align: justify;
+        }
+        .advert{
+            color:rgb(122, 16, 48)
+        }
+        .adBtn{
+            background:rgba(26, 26, 224, 0.719);
+            color: #fff;
+            border:none;
+            padding: 15px 30px;
+            text-align: center;
+            font-size:28px;
+            margin-top: 5px;
+            border-radius: 10px;
+        }
+        fieldset{
+        padding: auto;
+        margin: 10px auto;
+        font-size: 20px;
+        width: max-content;
+        }
+        .hide{
+            display: none;
+        }
+        legend{
+            font-size: bold;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        .data-item{
+            width: 400px;
+            max-width: 450px;
+            font-size: 25px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        label{
+            font-size: 20px;
+           
+        }
+        .estimate{
+            background:rgba(131, 8, 19, 0.979);
+            color: #fff;
+            border:none;
+            padding: 15px;
+            text-align: center;
+            font-size:25px;
+            border-radius: 15px;
+        }
+        footer{
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="nav-bar">
+            <ul>
+                <li> <img class="brand" src="/logo.png" alt=""></li>
+                <li><h1>Covid19 Impact Estimator</h1></li>
+            </ul>
+        </header>
+        <div class="slider">
+            <img src="/covid.png" alt="" class="slide-img">
+            <img src="/covid.jpeg" alt="" class="slide-img">
+            <img src="/covid19-1.jpeg" alt="" class="slide-img">
+            <img src="/covid19.jpeg" alt="" class="slide-img">
+        </div> 
+        <section class="info">
+            <p>Coronavirus disease (COVID-19) is an infectious disease 
+                caused by a new virus.
+                The disease causes respiratory illnes. You can protect yourself by 
+                washing your hands frequently, avoiding touching your face, 
+                and avoiding close contact with people who 
+                are unwell.
+            </p>
+            <p class="advert">Know the possible numbers of infections in your area.<br>
+                <button class="adBtn" type="button" onclick="show()">Estimate Now!</button>
+            </p>
+        </section>  
+        <form>
+            <fieldset class="hide" id="#form">
+                <legend>Covid19 information</legend>
+                <label for="population">Population of City:</label> <br>
+                <input type="text" name="population" data-population class="data-item num"><br>
+                <label for="timeToElapse">Period of Estimation:</label><br>
+                <input type="text" name="timeToElapse" data-time-to-elapse class="data-item num1"><br>
+                <label for="reportedCases">Reported Cases:</label><br>
+                <input type="text" name="reportedCases" data-reported-cases class="data-item num2"><br>
+                <label for="totalHospitalBeds">Hospital Beds:</label><br>
+                <input type="text" name="totalHospitalBeds" data-total-hospital-beds class="data-item num3"><br>
+                <label for="perioType">Estimation Period Type:</label><br>
+                <select data-period-type name="periodType" class="data-item">
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                </select><br><span id="error"></span><br>
+                
+                <input type="button" onclick="validateNum()" class="estimate" data-go-estimate value="Get Estimation">
+            </fieldset>
+        </form>
+        <footer>
+            <p>&copy; 2020 Francis Ogbonna. All rights Reserved.</p>
+        </footer>
+    </div>
+    <script>
+        var index =0;
+        const sliders = () => {
+            var el =document.querySelectorAll('.slide-img');
+            for (let i = 0; i < el.length; i++) {
+                el[i].style.display='none';
+            }
+            index++;
+            if(index > el.length){
+                index =1;
+            }
+            el[index - 1].style.display='block';
+            setTimeout(sliders,3000);
+        }
+        sliders();
+        const show = () => {
+            const x = document.querySelector('fieldset');
+            const btn = document.querySelector('.adBtn');
+            if(x.classList.contains('hide')){
+                x.classList.remove('hide');
+                btn.classList.add('hide');
+            }else{
+                x.classList.add('hide');
+                btn.classList.remove('hide');
+            }
+        }
+        const validateNum = () => {
+            const rec = document.querySelector('.num').value;
+            const rec1 = document.querySelector('.num1').value;
+            const rec2 = document.querySelector('.num2').value;
+            const rec3 = document.querySelector('.num3').value;
+            const warning = document.querySelector('#error');
+            warning.style.color='red';
+            if (rec === ''||rec1 ===''|| rec2 ===''|| rec3 ===''){
+                warning.innerHTML='Please fill all fields.';
+            }
+            else if(!parseInt(rec)||!parseInt(rec1)|| !parseInt(rec2)|| !parseInt(rec3)){
+                warning.innerHTML='Input Must be a Number';
+            }
+            else{
+                warning.innerHTML='';
+                setTimeout(show, 4000);
+            }
+            
+        }
+    </script>
+</body>
+</html>
